@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run DungeonSlime",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/DungeonSlime/bin/Debug/net8.0/DungeonSlime.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/DungeonSlime",
+      "console": "integratedTerminal",
+      "stopAtEntry": false
+    }
+  ]
+}
