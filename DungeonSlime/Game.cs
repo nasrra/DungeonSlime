@@ -4,6 +4,7 @@ using System;
 using HowlEngine;
 using HowlEngine.Graphics;
 using HowlEngine.Physics;
+using HowlEngine.Audio;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -11,12 +12,15 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using HowlEngine.ECS;
 using HowlEngine.Collections;
+using HowlEngine.SceneManagement;
+using System.IO;
 
 namespace DungeonSlime;
 
 public class Game : HowlApp{
     private AABBPhysicSystem physics;
     private SpriteRenderer spriteRenderer;
+    private SceneData sceneData;
     
     private Token slimeSprite;
     private Token slimeBody;
@@ -27,12 +31,13 @@ public class Game : HowlApp{
     private Token[] batBoxes = new Token[batAmount];
     private Token[] batSprites = new Token[batAmount];
     private Vector2[] batPositions = new Vector2[batAmount];
+    private Tileset tileset;
 
     private Camera camera;
 
     private const string atlasName = "Characters";
 
-    public Game() : base("Dungeon Slime", 1920, 1080, false, true){
+    public Game() : base("Dungeon Slime", 1280, 720, false, true){
         
     }
 
@@ -56,42 +61,63 @@ public class Game : HowlApp{
 
 
         spriteRenderer = new SpriteRenderer(
-            new Dictionary<string, TextureAtlas>(){
-                {atlasName, TextureAtlas.FromFile(Content, "images/atlas-data.xml")},
+            new Dictionary<string, string>(){
+                {atlasName, "atlas-data.xml"},
             },
-            batAmount + 1,
-            batAmount + 1
+            1000,
+            1000
         );
 
-        if(spriteRenderer.GetTextureAtlas(atlasName).TryGetTarget(out TextureAtlas atlas)){
-            slimeSprite = spriteRenderer.AllocateAnimatedSprite(atlas.CreateAnimatedSprite("slime-animation"));
-            RefView<AnimatedSprite> slimeSpriteRef = spriteRenderer.GetAnimatedSprite(ref slimeSprite);
-            if(slimeSpriteRef.Valid == true){
-                slimeSpriteRef.Data.Scale = new Vector2(4.0f,4.0f);
-                slimeSpriteRef.Data.Position  = slimePos;
-            }
-
-            for(int i = 0; i < batAmount; i++){
-                batSprites[i] = spriteRenderer.AllocateAnimatedSprite(atlas.CreateAnimatedSprite("bat-animation"));
-                RefView<AnimatedSprite> batSpriteRef = spriteRenderer.GetAnimatedSprite(ref batSprites[i]);
-                if(batSpriteRef.Valid == true){
-                    batSpriteRef.Data.Scale = new Vector2(4.0f, 4.0f);
-                    batSpriteRef.Data.Position = batPositions[i];
-                }
-            }
+        slimeSprite = spriteRenderer.AllocateAnimatedSprite(atlasName, "slime-animation");
+        RefView<AnimatedSprite> slimeSpriteRef = spriteRenderer.GetAnimatedSprite(ref slimeSprite);
+        if(slimeSpriteRef.Valid == true){
+            slimeSpriteRef.Data.Scale = new Vector2(4.0f,4.0f);
+            slimeSpriteRef.Data.Position  = slimePos;
         }
 
+        for(int i = 0; i < batAmount; i++){
+            batSprites[i] = spriteRenderer.AllocateAnimatedSprite(atlasName, "bat-animation");
+            RefView<AnimatedSprite> batSpriteRef = spriteRenderer.GetAnimatedSprite(ref batSprites[i]);
+            if(batSpriteRef.Valid == true){
+                batSpriteRef.Data.Scale = new Vector2(4.0f, 4.0f);
+                batSpriteRef.Data.Position = batPositions[i];
+            }
+        }
 
         // slimeBox = new RectangleCollider((int)slimePos.X, (int)slimePos.Y, 80,80);
         // batBox = new RectangleCollider((int)batPos.X, (int)batPos.Y, 80,80);
 
         // Any initializations you need to perform that have a dependency on assets being loaded should be done after the base.
         // Initialize call and not before it.
+        
+        // Read in SceneData.
+        string sceneDataJson = File.ReadAllText(System.IO.Path.Combine(ScenesFileDirectory,"DungeonSlime.json"));
+        SceneData sceneData = SceneData.FromJson(sceneDataJson);
+        
+        // Read in TilesetData.
+        TilesetToken token  = sceneData.TilesetTokens[0];
+        // find find the directory of the tileset data.
+        string tileSetDataDir = System.IO.Path.Combine(ImagesFileDirectory,token.Source);
+        string tileSetDataJson = File.ReadAllText(tileSetDataDir);
+        tileset = Tileset.FromJson(tileSetDataJson);
+        
+        Layer layer = sceneData.Layers[0];
+        int index = 0;
+        for(long y = 0; y < layer.Height; y++){
+            for(long x = 0; x < layer.Width; x++){
+                int tileId = (int)layer.Data[index];
+                if(tileId > 0){
+                    spriteRenderer.AllocateStaticSprite(tileset.CreateTile(new Vector2(x*tileset.TileWidth,y*tileset.TileHeight),tileId));
+                }
+                index++;
+            }
+        }
     }
     
     protected override void LoadContent(){        
+        base.LoadContent();
+        AudioManager.LoadBank("Bank A");
         // TODO: use this.Content to load your game content here
-        base.LoadContent();        
     }
 
     protected override void Update(GameTime gameTime){
@@ -115,6 +141,17 @@ public class Game : HowlApp{
         }
         if(Input.Keyboard.IsKeyJustPressed(Keys.O)){
             camera.MultiplyZoom(0.85f);
+        }
+        if(Input.Keyboard.IsKeyJustPressed(Keys.Tab)){
+            AudioManager.PlayOneShot("Test");
+        }
+        if(Input.Keyboard.IsKeyJustPressed(Keys.L)){
+            float vol = AudioManager.GetBusVolume("Master");
+            AudioManager.SetBusVolume("Master", vol-=0.1f);
+        }
+        if(Input.Keyboard.IsKeyJustPressed(Keys.K)){
+            float vol = AudioManager.GetBusVolume("Master");
+            AudioManager.SetBusVolume("Master", vol+=0.1f);
         }
         spriteRenderer.Update(gameTime);
     }
@@ -191,4 +228,10 @@ public class Game : HowlApp{
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
         Window.Title = "DungeonSlime [FPS]: " + (1.0f / deltaTime).ToString();
     }
+
+    protected override void OnExiting(object sender, ExitingEventArgs args){
+        AudioManager.Dispose();
+        base.OnExiting(sender, args);
+    }
+
 }

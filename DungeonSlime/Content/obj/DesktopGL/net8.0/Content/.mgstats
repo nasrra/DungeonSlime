@@ -1,5 +1,0 @@
-Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/MonogameProjects/DungeonSlime/DungeonSlime/Content/images/atlas-data.xml","C:\MonogameProjects\DungeonSlime\DungeonSlime\Content\bin\DesktopGL\Content\images/atlas-data.xml","CopyItem","File",879,879,0.000925
-"C:/MonogameProjects/DungeonSlime/DungeonSlime/Content/images/atlas.png","C:/MonogameProjects/DungeonSlime/DungeonSlime/Content/bin/DesktopGL/Content/images/atlas.xnb","TextureProcessor","Texture2DContent",590,16469,0.082382
-"C:/MonogameProjects/DungeonSlime/DungeonSlime/Content/images/Entropek_Logo.png","C:/MonogameProjects/DungeonSlime/DungeonSlime/Content/bin/DesktopGL/Content/images/Entropek_Logo.xnb","TextureProcessor","Texture2DContent",79442,8388693,0.1194818
-"C:/MonogameProjects/DungeonSlime/DungeonSlime/Content/images/funny.png","C:/MonogameProjects/DungeonSlime/DungeonSlime/Content/bin/DesktopGL/Content/images/funny.xnb","TextureProcessor","Texture2DContent",63333,188437,0.0045366
