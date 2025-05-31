@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using HowlEngine.ECS;
 using HowlEngine.Collections;
-using HowlEngine.SceneManagement;
 using System.IO;
 
 namespace DungeonSlime;
@@ -20,7 +19,7 @@ namespace DungeonSlime;
 public class Game : HowlApp{
     private AABBPhysicSystem physics;
     private SpriteRenderer spriteRenderer;
-    private SceneData sceneData;
+    private HowlEngine.SceneManagement.Config.SceneData sceneData;
     
     private Token slimeSprite;
     private Token slimeBody;
@@ -47,9 +46,9 @@ public class Game : HowlApp{
         SetFrameRate(1000);
         Random r = new Random();
 
-        camera = new Camera(Vector2.Zero, Vector2.Zero, new Vector2(640,360));
+        camera = new Camera(new Vector2(320, 180), Vector2.Zero, new Vector2(640,360));
 
-        physics = new AABBPhysicSystem(0, batAmount+1);
+        physics = new AABBPhysicSystem(0, 1000);
         slimeBody = physics.AllocatePyhsicsBody(new PhysicsBodyAABB(new RectangleColliderStruct((int)slimePos.X,(int)slimePos.Y,20,20)));
 
         for(int i = 0; i < batAmount; i++){
@@ -102,18 +101,48 @@ public class Game : HowlApp{
         // }
 
         string sceneDataJson = File.ReadAllText(System.IO.Path.Combine(ScenesFileDirectory,"DungeonSlime.json"));
-        SceneData sceneData = SceneData.FromJson(sceneDataJson);
+        HowlEngine.SceneManagement.Config.SceneData sceneData = HowlEngine.SceneManagement.Config.SceneData.FromJson(sceneDataJson);
 
         // load tilesets.
-        foreach(TilesetToken token in sceneData.TilesetTokens){
+        foreach(HowlEngine.SceneManagement.Config.Tileset token in sceneData.Tilesets){
             spriteRenderer.LoadTilesetData(token);
         }
 
-        for(int i = sceneData.Layers.Length - 1; i > -1; i--){
-            Layer layer = sceneData.Layers[i];
-            if(layer.Visible == true){
-                spriteRenderer.LoadTileMap(layer.Data, layer.Name, (int)sceneData.Width, (int)sceneData.Height);
+        for(int i = 0; i < sceneData.LayerGroup.Length; i++){
+            HowlEngine.SceneManagement.Config.LayerGroup layerGroup = sceneData.LayerGroup[i];
+
+            // Draw all tile layers.
+            if(layerGroup.Name == "TileLayers"){
+                for(int j = 0; j < layerGroup.Layers.Length; j++){
+                    HowlEngine.SceneManagement.Config.Layer layer = layerGroup.Layers[j];
+                    if(layer.Visible == true){
+                        spriteRenderer.LoadTileMap(layer.Data, layer.Name, (int)sceneData.Width, (int)sceneData.Height);
+                    }
+                }
             }
+
+            if(layerGroup.Name == "ObjectLayers"){
+                
+                for(int j = 0; j < layerGroup.Layers.Length; j++){
+                    HowlEngine.SceneManagement.Config.Layer layer = layerGroup.Layers[j];
+
+                    // add all colliders.
+
+                    if(layer.Visible == false){
+                        continue;
+                    }
+
+                    if(layer.Name == "Collisions"){
+                        foreach(HowlEngine.SceneManagement.Config.Object col in layer.Objects){
+                            physics.AllocatePyhsicsBody(new PhysicsBodyAABB(new RectangleColliderStruct((int)col.X,(int)col.Y,(int)col.Width,(int)col.Height)));
+                        }
+                    }
+                }
+            
+
+
+            }
+
         }
 
         // Layer layer = sceneData.Layers[0];
