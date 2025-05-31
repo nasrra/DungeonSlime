@@ -31,13 +31,12 @@ public class Game : HowlApp{
     private Token[] batBoxes = new Token[batAmount];
     private Token[] batSprites = new Token[batAmount];
     private Vector2[] batPositions = new Vector2[batAmount];
-    private Tileset tileset;
 
     private Camera camera;
 
-    private const string atlasName = "Characters";
+    private const string atlasName = "Entities";
 
-    public Game() : base("Dungeon Slime", 1280, 720, false, true){
+    public Game() : base("Dungeon Slime", 1920, 1080, false, true){
         
     }
 
@@ -45,41 +44,42 @@ public class Game : HowlApp{
         base.Initialize();
 
         DisableVSync();
-        SetFrameRate(170);
+        SetFrameRate(1000);
         Random r = new Random();
 
-        camera = new Camera(Vector2.Zero, Vector2.Zero, new Vector2(1280,720));
+        camera = new Camera(Vector2.Zero, Vector2.Zero, new Vector2(640,360));
 
         physics = new AABBPhysicSystem(0, batAmount+1);
-        slimeBody = physics.AllocatePyhsicsBody(new PhysicsBodyAABB(new RectangleColliderStruct((int)slimePos.X,(int)slimePos.Y,80,80)));
+        slimeBody = physics.AllocatePyhsicsBody(new PhysicsBodyAABB(new RectangleColliderStruct((int)slimePos.X,(int)slimePos.Y,20,20)));
 
         for(int i = 0; i < batAmount; i++){
-            Vector2 position = new Vector2(r.Next(100,1180), r.Next(100,620));
+            Vector2 position = new Vector2(r.Next(0,640), r.Next(0,360));
             batPositions[i] = position;
-            batBoxes[i] = physics.AllocatePyhsicsBody(new PhysicsBodyAABB(new RectangleColliderStruct((int)position.X,(int)position.Y,80,80)));
+            batBoxes[i] = physics.AllocatePyhsicsBody(new PhysicsBodyAABB(new RectangleColliderStruct((int)position.X,(int)position.Y,20,20)));
         }
 
 
         spriteRenderer = new SpriteRenderer(
-            new Dictionary<string, string>(){
-                {atlasName, "atlas-data.xml"},
+            new List<string>(){
+                "Entities\\Entities.json"
             },
             1000,
             1000
         );
 
-        slimeSprite = spriteRenderer.AllocateAnimatedSprite(atlasName, "slime-animation");
+
+        slimeSprite = spriteRenderer.AllocateAnimatedSprite(atlasName, "SlimeIdle");
         RefView<AnimatedSprite> slimeSpriteRef = spriteRenderer.GetAnimatedSprite(ref slimeSprite);
         if(slimeSpriteRef.Valid == true){
-            slimeSpriteRef.Data.Scale = new Vector2(4.0f,4.0f);
+            slimeSpriteRef.Data.Scale = new Vector2(1.0f,1.0f);
             slimeSpriteRef.Data.Position  = slimePos;
         }
 
         for(int i = 0; i < batAmount; i++){
-            batSprites[i] = spriteRenderer.AllocateAnimatedSprite(atlasName, "bat-animation");
+            batSprites[i] = spriteRenderer.AllocateAnimatedSprite(atlasName, "BatIdle");
             RefView<AnimatedSprite> batSpriteRef = spriteRenderer.GetAnimatedSprite(ref batSprites[i]);
             if(batSpriteRef.Valid == true){
-                batSpriteRef.Data.Scale = new Vector2(4.0f, 4.0f);
+                batSpriteRef.Data.Scale = new Vector2(1.0f, 1.0f);
                 batSpriteRef.Data.Position = batPositions[i];
             }
         }
@@ -91,27 +91,48 @@ public class Game : HowlApp{
         // Initialize call and not before it.
         
         // Read in SceneData.
-        string sceneDataJson = File.ReadAllText(System.IO.Path.Combine(ScenesFileDirectory,"DungeonSlime.json"));
-        SceneData sceneData = SceneData.FromJson(sceneDataJson);
         
         // Read in TilesetData.
-        TilesetToken token  = sceneData.TilesetTokens[0];
-        // find find the directory of the tileset data.
-        string tileSetDataDir = System.IO.Path.Combine(ImagesFileDirectory,token.Source);
-        string tileSetDataJson = File.ReadAllText(tileSetDataDir);
-        tileset = Tileset.FromJson(tileSetDataJson);
         
-        Layer layer = sceneData.Layers[0];
-        int index = 0;
-        for(long y = 0; y < layer.Height; y++){
-            for(long x = 0; x < layer.Width; x++){
-                int tileId = (int)layer.Data[index];
-                if(tileId > 0){
-                    spriteRenderer.AllocateStaticSprite(tileset.CreateTile(new Vector2(x*tileset.TileWidth,y*tileset.TileHeight),tileId));
-                }
-                index++;
+        // foreach(TilesetToken token in sceneData.TilesetTokens){
+        //     // find find the directory of the tileset data.
+        //     string tileSetDataDir = System.IO.Path.Combine(ImagesFileDirectory,token.Source);
+        //     string tileSetDataJson = File.ReadAllText(tileSetDataDir);
+
+        // }
+
+        string sceneDataJson = File.ReadAllText(System.IO.Path.Combine(ScenesFileDirectory,"DungeonSlime.json"));
+        SceneData sceneData = SceneData.FromJson(sceneDataJson);
+
+        // load tilesets.
+        foreach(TilesetToken token in sceneData.TilesetTokens){
+            spriteRenderer.LoadTilesetData(token);
+        }
+
+        for(int i = sceneData.Layers.Length - 1; i > -1; i--){
+            Layer layer = sceneData.Layers[i];
+            if(layer.Visible == true){
+                spriteRenderer.LoadTileMap(layer.Data, layer.Name, (int)sceneData.Width, (int)sceneData.Height);
             }
         }
+
+        // Layer layer = sceneData.Layers[0];
+        // int index = 0;
+        // for(long y = 0; y < layer.Height; y++){
+        //     for(long x = 0; x < layer.Width; x++){
+        //         int tileId = (int)layer.Data[index];
+        //         if(tileId > 0){
+        //             spriteRenderer.AllocateTileSprite(new Vector2(x*tileset.TileWidth,y*tileset.TileHeight),1,tileId);
+        //         }
+        //         index++;
+        //     }
+        // }
+
+        // spriteRenderer.UnloadTilesetData(1);
+
+        // Tileset s = new();
+
+        // tileset = null;  // Remove your local strong reference
     }
     
     protected override void LoadContent(){        
@@ -207,7 +228,7 @@ public class Game : HowlApp{
 
 
     protected override void Draw(GameTime gameTime){
-        GraphicsDevice.Clear(Color.Black);
+        GraphicsDevice.Clear(Color.DimGray);
 
 
         // Begin the sprite batch to preapre for rendering.
