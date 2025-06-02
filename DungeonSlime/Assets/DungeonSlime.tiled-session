@@ -1,0 +1,59 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "Scenes/Exports/Level1.json",
+    "expandedProjectPaths": [
+        "Templates/Exports",
+        "Templates/Exports/Entities",
+        "Images/Exports/Entities",
+        "Images",
+        "Images/Exports/Tilesets",
+        "Images/Exports",
+        ".",
+        "Templates/Entities",
+        "Templates"
+    ],
+    "fileStates": {
+        "Images/Exports/Entities/Entities.json": {
+            "scaleInDock": 1
+        },
+        "Images/Exports/Tilesets/TestTileset1.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Images/Exports/Tilesets/Tileset2.json": {
+            "scaleInDock": 1
+        },
+        "Scenes/Exports/Level1.json": {
+            "expandedGroupLayers": [
+                3,
+                4
+            ],
+            "scale": 3,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 319.3333333333333,
+                "y": 175.5
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/MonogameProjects/DungeonSlime/DungeonSlime/Assets/Scenes/Exports",
+    "last.objectTemplatePath": "C:/MonogameProjects/DungeonSlime/DungeonSlime/Assets/Templates/Exports/Entities",
+    "map.height": 22,
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "json",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 40,
+    "openFiles": [
+        "Scenes/Exports/Level1.json",
+        "Images/Exports/Tilesets/TestTileset1.json"
+    ],
+    "project": "DungeonSlime.tiled-project",
+    "recentFiles": [
+        "Images/Exports/Tilesets/TestTileset1.json",
+        "Scenes/Exports/Level1.json"
+    ]
+}

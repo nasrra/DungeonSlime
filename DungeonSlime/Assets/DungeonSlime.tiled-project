@@ -13,7 +13,7 @@
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
-            "id": 2,
+            "id": 3,
             "members": [
                 {
                     "name": "AnimationName",
@@ -26,54 +26,18 @@
                     "value": ""
                 }
             ],
-            "name": "AnimationRootTile",
+            "name": "AnimatedTile",
             "type": "class",
             "useAs": [
                 "property",
-                "map",
-                "layer",
-                "object",
                 "tile",
-                "tileset",
-                "wangcolor",
-                "wangset",
                 "project"
             ]
         },
         {
             "color": "#ffa0a0a4",
             "drawFill": true,
-            "id": 4,
-            "members": [
-                {
-                    "name": "LayerDepth",
-                    "type": "int",
-                    "value": 0
-                },
-                {
-                    "name": "TilesetName",
-                    "type": "string",
-                    "value": ""
-                }
-            ],
-            "name": "SceneLayer",
-            "type": "class",
-            "useAs": [
-                "property",
-                "map",
-                "layer",
-                "object",
-                "tile",
-                "tileset",
-                "wangcolor",
-                "wangset",
-                "project"
-            ]
-        },
-        {
-            "color": "#ffa0a0a4",
-            "drawFill": true,
-            "id": 3,
+            "id": 1,
             "members": [
                 {
                     "name": "TileName",
@@ -85,13 +49,26 @@
             "type": "class",
             "useAs": [
                 "property",
-                "map",
-                "layer",
-                "object",
                 "tile",
-                "tileset",
-                "wangcolor",
-                "wangset",
+                "project"
+            ]
+        },
+        {
+            "color": "#ffa0a0a4",
+            "drawFill": true,
+            "id": 2,
+            "members": [
+                {
+                    "name": "Type",
+                    "type": "string",
+                    "value": ""
+                }
+            ],
+            "name": "Entity",
+            "type": "class",
+            "useAs": [
+                "property",
+                "object",
                 "project"
             ]
         }

@@ -31,7 +31,7 @@
                  "type":"string",
                  "value":"SlimeIdle-1"
                 }],
-         "type":"AnimationRootTile"
+         "type":"AnimatedTile"
         }, 
         {
          "animation":[
@@ -63,7 +63,7 @@
                  "type":"string",
                  "value":"BatIdle-1"
                 }],
-         "type":"AnimationRootTile"
+         "type":"AnimatedTile"
         }, 
         {
          "id":3,

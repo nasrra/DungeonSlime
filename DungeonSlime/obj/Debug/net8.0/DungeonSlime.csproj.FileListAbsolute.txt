@@ -34,10 +34,12 @@ C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Audio\Desk
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Audio\Desktop\Master.strings.bank
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Tilesets\Collisions.png
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Tilesets\Collisions.json
-C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Scenes\Exports\DungeonSlime.json
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Entities\Entities.json
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Entities\Entities.png
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Tilesets\TestTileset1.json
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Tilesets\TestTileset1.png
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Tilesets\Tileset2.json
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Tilesets\Tileset2.png
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Scenes\Exports\Level1.json
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Templates\Exports\Entities\Bat.json
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Templates\Exports\Entities\Slime.json
