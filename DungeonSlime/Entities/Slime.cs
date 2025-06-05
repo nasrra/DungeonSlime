@@ -1,9 +1,8 @@
 using System;
-using HowlEngine;
+using System.Numerics;
 using HowlEngine.Collections;
 using HowlEngine.ECS;
 using HowlEngine.Physics;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
 namespace DungeonSlime.Entities;
@@ -18,11 +17,19 @@ public class Slime : Entity{
     }
 
     public Slime(Vector2 position){
-        Name = "Slime";        
+
         // allocation.
         
+        _id              = Game.EntityManager.AllocateEntity(this);
         _sprite          = Game.SpriteRenderer.AllocateAnimatedSprite("Entities", "SlimeIdle", position);
-        _physicsBody     = Game.PhysicsSystem.AllocatePyhsicsBody(new PhysicsBodyAABB(new RectangleCollider((int)position.X,(int)position.Y,20,20)));
+        _physicsBody     = Game.physicsSystem.AllocateBoxRigidBody(new 
+            BoxRigidBody(
+                position, 
+                16, 
+                16,
+                1,
+                0
+        ));
         
         // setting local variables.
 
@@ -33,13 +40,13 @@ public class Slime : Entity{
     }
     
     public override void Dispose(){
-        base.Dispose();
+        Game.EntityManager.FreeEntity(ref _id);
         Game.SpriteRenderer.FreeAnimatedSprite(ref _sprite);
-        Game.PhysicsSystem.FreePhysicsBody(ref _physicsBody);
+        Game.physicsSystem.FreeBoxRigidBody(ref _physicsBody);
     }
 
-    public override void FixedUpdate(GameTime gameTime){        
-        if(HowlApp.Input.Keyboard.IsKeyDown(Keys.LeftAlt)){
+    public override void FixedUpdate(float deltaTime){        
+        if(Game.Input.Keyboard.IsKeyDown(Keys.LeftAlt)){
             Dispose();
             return;
         }
@@ -53,31 +60,31 @@ public class Slime : Entity{
         throw new System.NotImplementedException();
     }
 
-    public override void Update(GameTime gameTime)
+    public override void Update(float deltaTime)
     {
         // throw new System.NotImplementedException();
     }
 
     private void PhysicsFixedUpdate(){
 
-        RefView<PhysicsBodyAABB> rv = Game.PhysicsSystem.GetPhysicsBody(ref _physicsBody);
+        RefView<BoxRigidBody> rv = Game.physicsSystem.GetBoxRigidBody(ref _physicsBody);
 
         if(rv.IsValid == true){
-            Vector2 newVelocity = new Vector2();
-            if(HowlApp.Input.Keyboard.IsKeyDown(Keys.A)){
-                newVelocity.X -= _movementSpeed;
+            Vector2 newVelocity = Vector2.Zero;
+            if(Game.Input.Keyboard.IsKeyDown(Keys.A)){
+                newVelocity.X -= 1;
             }
-            if(HowlApp.Input.Keyboard.IsKeyDown(Keys.D)){
-                newVelocity.X += _movementSpeed;
+            if(Game.Input.Keyboard.IsKeyDown(Keys.D)){
+                newVelocity.X += 1;
             }
-            if(HowlApp.Input.Keyboard.IsKeyDown(Keys.W)){
-                newVelocity.Y -= _movementSpeed;
+            if(Game.Input.Keyboard.IsKeyDown(Keys.W)){
+                newVelocity.Y -= 1;
             }
-            if(HowlApp.Input.Keyboard.IsKeyDown(Keys.S)){
-                newVelocity.Y += _movementSpeed;
+            if(Game.Input.Keyboard.IsKeyDown(Keys.S)){
+                newVelocity.Y += 1;
             }
-
-            rv.Data.Velocity = newVelocity;
+            
+            rv.Data.Position += newVelocity.Length() > 0 ? Vector2.Normalize(newVelocity) * _movementSpeed : Vector2.Zero;
             Position = rv.Data.Position;
         }
     }

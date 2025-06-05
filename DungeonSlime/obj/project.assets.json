@@ -92,14 +92,124 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
-      "HowlEngine/1.0.0": {
+      "HowlEngine.AssetManagement/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "compile": {
-          "bin/placeholder/HowlEngine.dll": {}
+          "bin/placeholder/HowlEngine.AssetManagement.dll": {}
         },
         "runtime": {
-          "bin/placeholder/HowlEngine.dll": {}
+          "bin/placeholder/HowlEngine.AssetManagement.dll": {}
+        }
+      },
+      "HowlEngine.Audio/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "HowlEngine.AssetManagement": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/HowlEngine.Audio.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HowlEngine.Audio.dll": {}
+        }
+      },
+      "HowlEngine.Collections/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/HowlEngine.Collections.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HowlEngine.Collections.dll": {}
+        }
+      },
+      "HowlEngine.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "HowlEngine.AssetManagement": "1.0.0",
+          "HowlEngine.Audio": "1.0.0",
+          "HowlEngine.Collections": "1.0.0",
+          "HowlEngine.ECS": "1.0.0",
+          "HowlEngine.Graphics": "1.0.0",
+          "HowlEngine.Physics": "1.0.0",
+          "HowlEngine.SceneManagement": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/HowlEngine.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HowlEngine.Core.dll": {}
+        }
+      },
+      "HowlEngine.ECS/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "HowlEngine.Collections": "1.0.0",
+          "HowlEngine.Physics": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/HowlEngine.ECS.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HowlEngine.ECS.dll": {}
+        }
+      },
+      "HowlEngine.Graphics/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "HowlEngine.AssetManagement": "1.0.0",
+          "HowlEngine.Collections": "1.0.0",
+          "HowlEngine.Math": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/HowlEngine.Graphics.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HowlEngine.Graphics.dll": {}
+        }
+      },
+      "HowlEngine.Math/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/HowlEngine.Math.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HowlEngine.Math.dll": {}
+        }
+      },
+      "HowlEngine.Physics/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "HowlEngine.Collections": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/HowlEngine.Physics.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HowlEngine.Physics.dll": {}
+        }
+      },
+      "HowlEngine.SceneManagement/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "HowlEngine.AssetManagement": "1.0.0",
+          "HowlEngine.Collections": "1.0.0",
+          "HowlEngine.Graphics": "1.0.0",
+          "HowlEngine.Physics": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/HowlEngine.SceneManagement.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HowlEngine.SceneManagement.dll": {}
         }
       }
     }
@@ -219,15 +329,62 @@
         "version.txt"
       ]
     },
-    "HowlEngine/1.0.0": {
+    "HowlEngine.AssetManagement/1.0.0": {
       "type": "project",
-      "path": "../../HowlEngine/HowlEngine/HowlEngine.csproj",
-      "msbuildProject": "../../HowlEngine/HowlEngine/HowlEngine.csproj"
+      "path": "../../HowlEngine.AssetManagement/HowlEngine.AssetManagement.csproj",
+      "msbuildProject": "../../HowlEngine.AssetManagement/HowlEngine.AssetManagement.csproj"
+    },
+    "HowlEngine.Audio/1.0.0": {
+      "type": "project",
+      "path": "../../HowlEngine.Audio/HowlEngine.Audio.csproj",
+      "msbuildProject": "../../HowlEngine.Audio/HowlEngine.Audio.csproj"
+    },
+    "HowlEngine.Collections/1.0.0": {
+      "type": "project",
+      "path": "../../HowlEngine.Collections/HowlEngine.Collections.csproj",
+      "msbuildProject": "../../HowlEngine.Collections/HowlEngine.Collections.csproj"
+    },
+    "HowlEngine.Core/1.0.0": {
+      "type": "project",
+      "path": "../../HowlEngine.Core/HowlEngine.Core/HowlEngine.Core.csproj",
+      "msbuildProject": "../../HowlEngine.Core/HowlEngine.Core/HowlEngine.Core.csproj"
+    },
+    "HowlEngine.ECS/1.0.0": {
+      "type": "project",
+      "path": "../../HowlEngine.ECS/HowlEngine.ECS.csproj",
+      "msbuildProject": "../../HowlEngine.ECS/HowlEngine.ECS.csproj"
+    },
+    "HowlEngine.Graphics/1.0.0": {
+      "type": "project",
+      "path": "../../HowlEngine.Graphics/HowlEngine.Graphics.csproj",
+      "msbuildProject": "../../HowlEngine.Graphics/HowlEngine.Graphics.csproj"
+    },
+    "HowlEngine.Math/1.0.0": {
+      "type": "project",
+      "path": "../../HowlEngine.Math/HowlEngine.Math.csproj",
+      "msbuildProject": "../../HowlEngine.Math/HowlEngine.Math.csproj"
+    },
+    "HowlEngine.Physics/1.0.0": {
+      "type": "project",
+      "path": "../../HowlEngine.Physics/HowlEngine.Physics.csproj",
+      "msbuildProject": "../../HowlEngine.Physics/HowlEngine.Physics.csproj"
+    },
+    "HowlEngine.SceneManagement/1.0.0": {
+      "type": "project",
+      "path": "../../HowlEngine.SceneManagement/HowlEngine.SceneManagement.csproj",
+      "msbuildProject": "../../HowlEngine.SceneManagement/HowlEngine.SceneManagement.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "HowlEngine >= 1.0.0",
+      "HowlEngine.AssetManagement >= 1.0.0",
+      "HowlEngine.Audio >= 1.0.0",
+      "HowlEngine.Collections >= 1.0.0",
+      "HowlEngine.Core >= 1.0.0",
+      "HowlEngine.ECS >= 1.0.0",
+      "HowlEngine.Graphics >= 1.0.0",
+      "HowlEngine.Physics >= 1.0.0",
+      "HowlEngine.SceneManagement >= 1.0.0",
       "MonoGame.Framework.DesktopGL >= 3.8.2.1105"
     ]
   },
@@ -256,8 +413,29 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\MonogameProjects\\HowlEngine\\HowlEngine\\HowlEngine.csproj": {
-              "projectPath": "C:\\MonogameProjects\\HowlEngine\\HowlEngine\\HowlEngine.csproj"
+            "C:\\MonogameProjects\\HowlEngine.AssetManagement\\HowlEngine.AssetManagement.csproj": {
+              "projectPath": "C:\\MonogameProjects\\HowlEngine.AssetManagement\\HowlEngine.AssetManagement.csproj"
+            },
+            "C:\\MonogameProjects\\HowlEngine.Audio\\HowlEngine.Audio.csproj": {
+              "projectPath": "C:\\MonogameProjects\\HowlEngine.Audio\\HowlEngine.Audio.csproj"
+            },
+            "C:\\MonogameProjects\\HowlEngine.Collections\\HowlEngine.Collections.csproj": {
+              "projectPath": "C:\\MonogameProjects\\HowlEngine.Collections\\HowlEngine.Collections.csproj"
+            },
+            "C:\\MonogameProjects\\HowlEngine.Core\\HowlEngine.Core\\HowlEngine.Core.csproj": {
+              "projectPath": "C:\\MonogameProjects\\HowlEngine.Core\\HowlEngine.Core\\HowlEngine.Core.csproj"
+            },
+            "C:\\MonogameProjects\\HowlEngine.ECS\\HowlEngine.ECS.csproj": {
+              "projectPath": "C:\\MonogameProjects\\HowlEngine.ECS\\HowlEngine.ECS.csproj"
+            },
+            "C:\\MonogameProjects\\HowlEngine.Graphics\\HowlEngine.Graphics.csproj": {
+              "projectPath": "C:\\MonogameProjects\\HowlEngine.Graphics\\HowlEngine.Graphics.csproj"
+            },
+            "C:\\MonogameProjects\\HowlEngine.Physics\\HowlEngine.Physics.csproj": {
+              "projectPath": "C:\\MonogameProjects\\HowlEngine.Physics\\HowlEngine.Physics.csproj"
+            },
+            "C:\\MonogameProjects\\HowlEngine.SceneManagement\\HowlEngine.SceneManagement.csproj": {
+              "projectPath": "C:\\MonogameProjects\\HowlEngine.SceneManagement\\HowlEngine.SceneManagement.csproj"
             }
           }
         }

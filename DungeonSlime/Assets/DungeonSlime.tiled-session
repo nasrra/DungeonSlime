@@ -6,36 +6,44 @@
     "activeFile": "Scenes/Exports/Level1.json",
     "expandedProjectPaths": [
         "Templates/Exports",
-        "Templates/Exports/Entities",
-        "Images/Exports/Entities",
-        "Images",
-        "Images/Exports/Tilesets",
-        "Images/Exports",
-        ".",
+        "Scenes/Exports",
+        "Scenes",
         "Templates/Entities",
-        "Templates"
+        ".",
+        "Templates",
+        "Images",
+        "Templates/Exports/Entities",
+        "Images/Exports",
+        "Images/Exports/Tilesets",
+        "Images/Exports/Entities"
     ],
     "fileStates": {
         "Images/Exports/Entities/Entities.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "Images/Exports/Tilesets/Collisions.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "Images/Exports/Tilesets/TestTileset1.json": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "Images/Exports/Tilesets/Tileset2.json": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "Scenes/Exports/Level1.json": {
             "expandedGroupLayers": [
-                3,
-                4
+                4,
+                3
             ],
-            "scale": 3,
+            "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 319.3333333333333,
-                "y": 175.5
+                "x": 338,
+                "y": 144.5
             }
         }
     },
@@ -49,10 +57,16 @@
     "map.width": 40,
     "openFiles": [
         "Scenes/Exports/Level1.json",
-        "Images/Exports/Tilesets/TestTileset1.json"
+        "Images/Exports/Tilesets/TestTileset1.json",
+        "Images/Exports/Tilesets/Tileset2.json",
+        "Images/Exports/Tilesets/Collisions.json",
+        "Images/Exports/Entities/Entities.json"
     ],
     "project": "DungeonSlime.tiled-project",
     "recentFiles": [
+        "Images/Exports/Entities/Entities.json",
+        "Images/Exports/Tilesets/Collisions.json",
+        "Images/Exports/Tilesets/Tileset2.json",
         "Images/Exports/Tilesets/TestTileset1.json",
         "Scenes/Exports/Level1.json"
     ]

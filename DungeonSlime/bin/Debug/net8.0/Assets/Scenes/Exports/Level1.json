@@ -38,6 +38,7 @@
                     2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
                  "height":22,
                  "id":1,
+                 "locked":true,
                  "name":"TestTileset1",
                  "opacity":1,
                  "type":"tilelayer",
@@ -71,6 +72,7 @@
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                  "height":22,
                  "id":2,
+                 "locked":true,
                  "name":"Tileset2",
                  "opacity":1,
                  "type":"tilelayer",
@@ -79,6 +81,7 @@
                  "x":0,
                  "y":0
                 }],
+         "locked":true,
          "name":"TileLayers",
          "opacity":1,
          "type":"group",
@@ -95,34 +98,22 @@
                  "name":"Entities",
                  "objects":[
                         {
-                         "id":10,
-                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
-                         "x":112,
-                         "y":320
-                        }, 
-                        {
-                         "id":12,
-                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
-                         "x":64,
-                         "y":160
-                        }, 
-                        {
-                         "id":13,
-                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
-                         "x":64,
-                         "y":80
-                        }, 
-                        {
-                         "id":14,
-                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
-                         "x":112,
+                         "id":19,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Slime.json",
+                         "x":336,
                          "y":224
                         }, 
                         {
-                         "id":19,
-                         "template":"..\/..\/Templates\/Exports\/Entities\/Slime.json",
-                         "x":416,
-                         "y":192
+                         "id":30,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":305.5,
+                         "y":275
+                        }, 
+                        {
+                         "id":33,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":259,
+                         "y":276
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -133,6 +124,7 @@
                 {
                  "draworder":"topdown",
                  "id":5,
+                 "locked":true,
                  "name":"Collisions",
                  "objects":[
                         {
@@ -226,7 +218,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":20,
+ "nextobjectid":40,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

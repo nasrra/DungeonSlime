@@ -1,9 +1,8 @@
 using System;
 using HowlEngine.Collections;
 using HowlEngine.ECS;
-using HowlEngine.Graphics;
+using System.Numerics;
 using HowlEngine.Physics;
-using Microsoft.Xna.Framework;
 
 namespace DungeonSlime.Entities;
 
@@ -16,47 +15,54 @@ public class Bat : Entity{
     }
 
     public Bat(Vector2 position){
-        
+        _id = Game.EntityManager.AllocateEntity(this);
+
+        Random r = new Random();
+
         // Allocate components.
         
-        _sprite         = Game.SpriteRenderer.AllocateAnimatedSprite("Entities", "BatIdle");
-        _physicsBody    = Game.PhysicsSystem.AllocatePyhsicsBody(new PhysicsBodyAABB(new RectangleCollider((int)position.X,(int)position.Y,20,20)));
+        _sprite          = Game.SpriteRenderer.AllocateAnimatedSprite("Entities", "BatIdle", position);
+        _physicsBody     = Game.physicsSystem.AllocateBoxRigidBody(new 
+            BoxRigidBody(
+                position, 
+                16, 
+                16,
+                1,
+                0
+        ));
 
         // set unique data.
 
-        Position = new Vector2((int)position.X, (int)position.Y);
+        Position = new Vector2((int)position.X, (int)position.Y);    
     }
 
-    public override void FixedUpdate(GameTime gameTime){
+    public override void FixedUpdate(float deltaTime){
         PhysicsFixedUpdate();
         SpriteFixedUpdate();
     }
 
     public override void Start(){
-    
     }
 
-    public override void Update(GameTime gameTime){
+    public override void Update(float deltaTime){
     
     }
 
     public override void Dispose(){
-        base.Dispose();
+        Game.EntityManager.FreeEntity(ref _id);
         Game.SpriteRenderer.FreeAnimatedSprite(ref _sprite);
-        Game.PhysicsSystem.FreePhysicsBody(ref _physicsBody);
+        Game.physicsSystem.FreeBoxRigidBody(ref _physicsBody);
     }
 
     private void PhysicsFixedUpdate(){
-        RefView<PhysicsBodyAABB> rv = Game.PhysicsSystem.GetPhysicsBody(ref _physicsBody);
+        RefView<BoxRigidBody> rv = Game.physicsSystem.GetBoxRigidBody(ref _physicsBody);
         if(rv.IsValid){
             Position = rv.Data.Position;
+            rv.Data.Rotation += 0.025f;
         }
     }
 
     private void SpriteFixedUpdate(){
-        RefView<AnimatedSprite> rv = Game.SpriteRenderer.GetAnimatedSprite(ref _sprite);
-        if(rv.IsValid){
-            rv.Data.Position = Position;
-        }
+        Game.SpriteRenderer.SetAnimatedSpritePosition(ref _sprite, Position);
     }
 }

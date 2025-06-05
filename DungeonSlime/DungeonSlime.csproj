@@ -33,7 +33,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\HowlEngine\HowlEngine\HowlEngine.csproj" />
+    <ProjectReference Include="..\..\HowlEngine.AssetManagement\HowlEngine.AssetManagement.csproj" />
+    <ProjectReference Include="..\..\HowlEngine.Audio\HowlEngine.Audio.csproj" />
+    <ProjectReference Include="..\..\HowlEngine.Collections\HowlEngine.Collections.csproj" />
+    <ProjectReference Include="..\..\HowlEngine.Core\HowlEngine.Core\HowlEngine.Core.csproj" />
+    <ProjectReference Include="..\..\HowlEngine.ECS\HowlEngine.ECS.csproj" />
+    <ProjectReference Include="..\..\HowlEngine.Graphics\HowlEngine.Graphics.csproj" />
+    <ProjectReference Include="..\..\HowlEngine.Physics\HowlEngine.Physics.csproj" />
+    <ProjectReference Include="..\..\HowlEngine.SceneManagement\HowlEngine.SceneManagement.csproj" />
   </ItemGroup>
 
   <ItemGroup>
