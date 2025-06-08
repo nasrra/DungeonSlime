@@ -49,6 +49,9 @@
               },
               "C:\\MonogameProjects\\HowlEngine.SceneManagement\\HowlEngine.SceneManagement.csproj": {
                 "projectPath": "C:\\MonogameProjects\\HowlEngine.SceneManagement\\HowlEngine.SceneManagement.csproj"
+              },
+              "C:\\MonogameProjects\\HowlEngine.Vendors\\FontStashSharp\\FontStashSharp-main\\inc\\XNA\\FontStashSharp.MonoGame.csproj": {
+                "projectPath": "C:\\MonogameProjects\\HowlEngine.Vendors\\FontStashSharp\\FontStashSharp-main\\inc\\XNA\\FontStashSharp.MonoGame.csproj"
               }
             }
           }
@@ -686,6 +689,88 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\MonogameProjects\\HowlEngine.Vendors\\FontStashSharp\\FontStashSharp-main\\inc\\XNA\\FontStashSharp.MonoGame.csproj": {
+      "version": "1.3.10",
+      "restore": {
+        "projectUniqueName": "C:\\MonogameProjects\\HowlEngine.Vendors\\FontStashSharp\\FontStashSharp-main\\inc\\XNA\\FontStashSharp.MonoGame.csproj",
+        "projectName": "FontStashSharp.MonoGame",
+        "projectPath": "C:\\MonogameProjects\\HowlEngine.Vendors\\FontStashSharp\\FontStashSharp-main\\inc\\XNA\\FontStashSharp.MonoGame.csproj",
+        "packagesPath": "C:\\Users\\naser\\.nuget\\packages\\",
+        "outputPath": "C:\\MonogameProjects\\HowlEngine.Vendors\\FontStashSharp\\FontStashSharp-main\\inc\\XNA\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\naser\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "targetAlias": "netstandard2.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "targetAlias": "netstandard2.0",
+          "dependencies": {
+            "Cyotek.Drawing.BitmapFont": {
+              "target": "Package",
+              "version": "[2.0.4, )"
+            },
+            "FontStashSharp.Base": {
+              "target": "Package",
+              "version": "[1.1.9, )"
+            },
+            "FontStashSharp.Rasterizers.StbTrueTypeSharp": {
+              "target": "Package",
+              "version": "[1.1.9, )"
+            },
+            "MonoGame.Framework.DesktopGL": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.8.0.1641, )"
+            },
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "StbImageSharp": {
+              "target": "Package",
+              "version": "[2.30.15, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404\\RuntimeIdentifierGraph.json"
         }
       }
     }

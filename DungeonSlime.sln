@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowlEngine.Physics", "..\Ho
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HowlEngine.SceneManagement", "..\HowlEngine.SceneManagement\HowlEngine.SceneManagement.csproj", "{8E8214C9-3D74-4F23-89CE-DA13A408D63F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontStashSharp.MonoGame", "..\HowlEngine.Vendors\FontStashSharp\FontStashSharp-main\inc\XNA\FontStashSharp.MonoGame.csproj", "{67427E13-05E0-4BC6-B0AA-99F9C7065290}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{8E8214C9-3D74-4F23-89CE-DA13A408D63F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E8214C9-3D74-4F23-89CE-DA13A408D63F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E8214C9-3D74-4F23-89CE-DA13A408D63F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67427E13-05E0-4BC6-B0AA-99F9C7065290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67427E13-05E0-4BC6-B0AA-99F9C7065290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67427E13-05E0-4BC6-B0AA-99F9C7065290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67427E13-05E0-4BC6-B0AA-99F9C7065290}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

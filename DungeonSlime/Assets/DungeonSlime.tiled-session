@@ -5,17 +5,17 @@
     },
     "activeFile": "Scenes/Exports/Level1.json",
     "expandedProjectPaths": [
-        "Templates/Entities",
-        "Images/Exports/Tilesets",
-        ".",
-        "Templates/Exports",
-        "Images/Exports/Entities",
-        "Scenes/Exports",
-        "Templates",
-        "Images/Exports",
+        "Templates/Exports/Entities",
         "Scenes",
         "Images",
-        "Templates/Exports/Entities"
+        "Images/Exports/Tilesets",
+        ".",
+        "Images/Exports",
+        "Templates",
+        "Templates/Entities",
+        "Templates/Exports",
+        "Scenes/Exports",
+        "Images/Exports/Entities"
     ],
     "fileStates": {
         "Images/Exports/Entities/Debug.json": {
@@ -50,8 +50,8 @@
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 294.5,
-                "y": 209
+                "x": 329.5,
+                "y": 207
             }
         }
     },

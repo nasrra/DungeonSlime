@@ -61,3 +61,12 @@ C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\HowlEngine.Math.d
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\HowlEngine.Math.pdb
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Entities\Debug.json
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Entities\Debug.png
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\FontStashSharp.MonoGame.dll
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Cyotek.Drawing.BitmapFont.dll
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\FontStashSharp.Base.dll
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\FontStashSharp.Rasterizers.StbTrueTypeSharp.dll
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\StbImageSharp.dll
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\StbTrueTypeSharp.dll
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\FontStashSharp.MonoGame.pdb
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Fonts\DroidSans.ttf
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Fonts\DroidSansJapanese.ttf

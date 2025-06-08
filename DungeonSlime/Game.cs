@@ -13,11 +13,13 @@ using System.Collections.Generic;
 using DungeonSlime.Entities;
 using System.Numerics;
 using HowlEngine.Core.Input;
+using FontStashSharp;
 
 namespace DungeonSlime;
 
 public class Game : HowlEngine.Core.HowlApp{
     private AssetManager _assetManager;
+    private FontSystem fontSystem;
 
     private List<Token> spawnedBats = new List<Token>();
     private List<Token> spawnedCircleColliders = new List<Token>();
@@ -35,6 +37,11 @@ public class Game : HowlEngine.Core.HowlApp{
         DisableVSync();
         SetFrameRate(1000);
         Random r = new Random();
+
+        fontSystem = new FontSystem();
+        fontSystem.AddFont(System.IO.File.ReadAllBytes(@"Assets/Fonts/DroidSans.ttf"));
+        fontSystem.AddFont(System.IO.File.ReadAllBytes(@"Assets/Fonts/DroidSansJapanese.ttf"));
+
         PhysicsSystem = new PhysicsSystem(200,200,200,200, true);
 
         _assetManager = new AssetManager(typeof(Game).Assembly);
@@ -164,7 +171,7 @@ public class Game : HowlEngine.Core.HowlApp{
                 copiedBoxesRigids[i],
                 System.Drawing.Color.White,
                 1,
-                1
+                0.5f
             );
         }
 
@@ -178,7 +185,38 @@ public class Game : HowlEngine.Core.HowlApp{
             );
         }
 
+        for(int i = 0; i < PhysicsSystem.ContactPoints.Count; i++){
+            Vector2 point = PhysicsSystem.ContactPoints[i];
+            
+            SpriteRenderer.DrawPolygon(
+                SpriteBatch,
+                new Vector2[]{
+                    new Vector2(-1+point.X, -1+point.Y),
+                    new Vector2(1+point.X, -1+point.Y),
+                    new Vector2(1+point.X, 1+point.Y),
+                    new Vector2(-1+point.X, 1+point.Y),
+                },
+                System.Drawing.Color.Blue,
+                1,
+                1
+            );
+        }
         SpriteBatch.End();
+
+        SpriteBatch.Begin();
+        SpriteFontBase font = fontSystem.GetFont(24);
+        SpriteBatch.DrawString(
+            font, 
+            "[Physics Loop] step time (ms): \n" +
+            "[Physics Loop] total body count: \n"+
+            "[Physics Loop] avg bodies per step: \n", 
+            new Vector2(0, Graphics.PreferredBackBufferHeight - 75), 
+            Microsoft.Xna.Framework.Color.White,
+            effect: FontSystemEffect.Stroked,
+            effectAmount: 2
+        );
+        SpriteBatch.End();
+
 
         // Always end the sprite batch when finished.
 
@@ -191,6 +229,7 @@ public class Game : HowlEngine.Core.HowlApp{
 
     protected override void OnExiting(object sender, Microsoft.Xna.Framework.ExitingEventArgs args){
         AudioManager.Dispose();
+        fontSystem.Dispose();
         base.OnExiting(sender, args);
     }
 
@@ -238,7 +277,6 @@ public class Game : HowlEngine.Core.HowlApp{
 
     void SpawnEntityAtMouse(){
         if(Input.Mouse.IsButtonJustPressed(MouseButton.Left)){
-            Console.WriteLine(1);
             Matrix4x4.Invert(CameraManager.GetMainCamera().ViewMatrix, out Matrix4x4 toWorldPosition);
             BouncyBall ball = new BouncyBall(
                 Vector2.Transform(new Vector2(Input.Mouse.X, Input.Mouse.Y), toWorldPosition)
@@ -246,7 +284,6 @@ public class Game : HowlEngine.Core.HowlApp{
         }
 
         if(Input.Mouse.IsButtonJustPressed(MouseButton.Right)){
-            Console.WriteLine(1);
             Matrix4x4.Invert(CameraManager.GetMainCamera().ViewMatrix, out Matrix4x4 toWorldPosition);
             SolidSquare square = new SolidSquare(
                 Vector2.Transform(new Vector2(Input.Mouse.X, Input.Mouse.Y), toWorldPosition)
