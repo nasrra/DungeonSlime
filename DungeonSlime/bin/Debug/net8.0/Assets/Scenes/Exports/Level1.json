@@ -98,22 +98,46 @@
                  "name":"Entities",
                  "objects":[
                         {
-                         "id":19,
+                         "id":43,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":192,
+                         "y":112
+                        }, 
+                        {
+                         "id":53,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":192,
+                         "y":80
+                        }, 
+                        {
+                         "id":54,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":192,
+                         "y":48
+                        }, 
+                        {
+                         "id":67,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":224,
+                         "y":112
+                        }, 
+                        {
+                         "id":84,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":224,
+                         "y":80
+                        }, 
+                        {
+                         "id":85,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":256,
+                         "y":112
+                        }, 
+                        {
+                         "id":86,
                          "template":"..\/..\/Templates\/Exports\/Entities\/Slime.json",
-                         "x":336,
+                         "x":400,
                          "y":224
-                        }, 
-                        {
-                         "id":30,
-                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
-                         "x":305.5,
-                         "y":275
-                        }, 
-                        {
-                         "id":33,
-                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
-                         "x":259,
-                         "y":276
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -150,28 +174,6 @@
                          "y":0
                         }, 
                         {
-                         "height":16,
-                         "id":4,
-                         "name":"",
-                         "rotation":0,
-                         "type":"",
-                         "visible":true,
-                         "width":640,
-                         "x":0,
-                         "y":0
-                        }, 
-                        {
-                         "height":16,
-                         "id":5,
-                         "name":"",
-                         "rotation":0,
-                         "type":"",
-                         "visible":true,
-                         "width":640,
-                         "x":0,
-                         "y":336
-                        }, 
-                        {
                          "height":47,
                          "id":6,
                          "name":"",
@@ -203,6 +205,28 @@
                          "width":47,
                          "x":480,
                          "y":128
+                        }, 
+                        {
+                         "height":16,
+                         "id":40,
+                         "name":"",
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":640,
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "height":16,
+                         "id":41,
+                         "name":"",
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":640,
+                         "x":0,
+                         "y":336
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -218,7 +242,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":40,
+ "nextobjectid":87,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",
@@ -235,6 +259,10 @@
         {
          "firstgid":513,
          "source":"..\/..\/Images\/Exports\/Entities\/Entities.json"
+        }, 
+        {
+         "firstgid":522,
+         "source":"..\/..\/Images\/Exports\/Entities\/Debug.json"
         }],
  "tilewidth":16,
  "type":"map",

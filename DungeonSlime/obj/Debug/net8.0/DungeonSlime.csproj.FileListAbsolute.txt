@@ -59,3 +59,5 @@ C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\HowlEngine.Physic
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\HowlEngine.SceneManagement.pdb
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\HowlEngine.Math.dll
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\HowlEngine.Math.pdb
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Entities\Debug.json
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Images\Exports\Entities\Debug.png

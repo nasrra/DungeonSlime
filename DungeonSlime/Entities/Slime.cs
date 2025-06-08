@@ -22,18 +22,17 @@ public class Slime : Entity{
         
         _id              = Game.EntityManager.AllocateEntity(this);
         _sprite          = Game.SpriteRenderer.AllocateAnimatedSprite("Entities", "SlimeIdle", position);
-        _physicsBody     = Game.physicsSystem.AllocateBoxRigidBody(new 
-            BoxRigidBody(
-                position, 
-                16, 
-                16,
-                1,
-                0
-        ));
+        _physicsBody     = Game.PhysicsSystem.AllocateBoxRigidBody(
+            position, 
+            16,
+            16,
+            1f,
+            1f
+        );
         
         // setting local variables.
 
-        _movementSpeed = 1f;
+        _movementSpeed = 20f;
         Position = position;
 
         // Start();
@@ -42,7 +41,7 @@ public class Slime : Entity{
     public override void Dispose(){
         Game.EntityManager.FreeEntity(ref _id);
         Game.SpriteRenderer.FreeAnimatedSprite(ref _sprite);
-        Game.physicsSystem.FreeBoxRigidBody(ref _physicsBody);
+        Game.PhysicsSystem.FreePolygonRigidBody(ref _physicsBody);
     }
 
     public override void FixedUpdate(float deltaTime){        
@@ -67,7 +66,7 @@ public class Slime : Entity{
 
     private void PhysicsFixedUpdate(){
 
-        RefView<BoxRigidBody> rv = Game.physicsSystem.GetBoxRigidBody(ref _physicsBody);
+        RefView<PolygonPhysicsBody> rv = Game.PhysicsSystem.GetPolygonRigidBody(ref _physicsBody);
 
         if(rv.IsValid == true){
             Vector2 newVelocity = Vector2.Zero;
@@ -84,7 +83,7 @@ public class Slime : Entity{
                 newVelocity.Y += 1;
             }
             
-            rv.Data.Position += newVelocity.Length() > 0 ? Vector2.Normalize(newVelocity) * _movementSpeed : Vector2.Zero;
+            rv.Data.PhysicsBody.Force = newVelocity.Length() > 0 ? Vector2.Normalize(newVelocity) * _movementSpeed : Vector2.Zero;
             Position = rv.Data.Position;
         }
     }

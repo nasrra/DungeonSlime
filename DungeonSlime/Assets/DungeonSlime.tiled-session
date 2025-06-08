@@ -5,22 +5,30 @@
     },
     "activeFile": "Scenes/Exports/Level1.json",
     "expandedProjectPaths": [
-        "Templates/Exports",
-        "Scenes/Exports",
-        "Scenes",
         "Templates/Entities",
-        ".",
-        "Templates",
-        "Images",
-        "Templates/Exports/Entities",
-        "Images/Exports",
         "Images/Exports/Tilesets",
-        "Images/Exports/Entities"
+        ".",
+        "Templates/Exports",
+        "Images/Exports/Entities",
+        "Scenes/Exports",
+        "Templates",
+        "Images/Exports",
+        "Scenes",
+        "Images",
+        "Templates/Exports/Entities"
     ],
     "fileStates": {
+        "Images/Exports/Entities/Debug.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 11
+        },
         "Images/Exports/Entities/Entities.json": {
             "scaleInDock": 1,
             "scaleInEditor": 1
+        },
+        "Images/Exports/Entities/TestPhysicsBodies.json": {
+            "scaleInDock": 1,
+            "scaleInEditor": 23
         },
         "Images/Exports/Tilesets/Collisions.json": {
             "scaleInDock": 1,
@@ -36,18 +44,19 @@
         },
         "Scenes/Exports/Level1.json": {
             "expandedGroupLayers": [
-                4,
-                3
+                3,
+                4
             ],
             "scale": 2,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 338,
-                "y": 144.5
+                "x": 294.5,
+                "y": 209
             }
         }
     },
     "last.exportedFilePath": "C:/MonogameProjects/DungeonSlime/DungeonSlime/Assets/Scenes/Exports",
+    "last.imagePath": "C:/MonogameProjects/DungeonSlime/DungeonSlime/Assets/Images/Exports/Entities",
     "last.objectTemplatePath": "C:/MonogameProjects/DungeonSlime/DungeonSlime/Assets/Templates/Exports/Entities",
     "map.height": 22,
     "map.lastUsedExportFilter": "All Files (*)",
@@ -56,18 +65,21 @@
     "map.tileWidth": 16,
     "map.width": 40,
     "openFiles": [
-        "Scenes/Exports/Level1.json",
-        "Images/Exports/Tilesets/TestTileset1.json",
-        "Images/Exports/Tilesets/Tileset2.json",
-        "Images/Exports/Tilesets/Collisions.json",
-        "Images/Exports/Entities/Entities.json"
+        "Scenes/Exports/Level1.json"
     ],
     "project": "DungeonSlime.tiled-project",
     "recentFiles": [
+        "Scenes/Exports/Level1.json",
+        "Images/Exports/Entities/Debug.json",
+        "Images/Exports/Entities/TestPhysicsBodies.json",
         "Images/Exports/Entities/Entities.json",
         "Images/Exports/Tilesets/Collisions.json",
         "Images/Exports/Tilesets/Tileset2.json",
-        "Images/Exports/Tilesets/TestTileset1.json",
-        "Scenes/Exports/Level1.json"
-    ]
+        "Images/Exports/Tilesets/TestTileset1.json"
+    ],
+    "tileset.lastUsedFormat": "json",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
 }

@@ -22,14 +22,13 @@ public class Bat : Entity{
         // Allocate components.
         
         _sprite          = Game.SpriteRenderer.AllocateAnimatedSprite("Entities", "BatIdle", position);
-        _physicsBody     = Game.physicsSystem.AllocateBoxRigidBody(new 
-            BoxRigidBody(
-                position, 
-                16, 
-                16,
-                1,
-                0
-        ));
+        _physicsBody     = Game.PhysicsSystem.AllocateBoxRigidBody(
+            position, 
+            16, 
+            16,
+            2,
+            1f
+        );
 
         // set unique data.
 
@@ -51,14 +50,14 @@ public class Bat : Entity{
     public override void Dispose(){
         Game.EntityManager.FreeEntity(ref _id);
         Game.SpriteRenderer.FreeAnimatedSprite(ref _sprite);
-        Game.physicsSystem.FreeBoxRigidBody(ref _physicsBody);
+        Game.PhysicsSystem.FreePolygonRigidBody(ref _physicsBody);
     }
 
     private void PhysicsFixedUpdate(){
-        RefView<BoxRigidBody> rv = Game.physicsSystem.GetBoxRigidBody(ref _physicsBody);
+        RefView<PolygonPhysicsBody> rv = Game.PhysicsSystem.GetPolygonRigidBody(ref _physicsBody);
         if(rv.IsValid){
             Position = rv.Data.Position;
-            rv.Data.Rotation += 0.025f;
+            // rv.Data.Rotation += 0.025f;
         }
     }
 

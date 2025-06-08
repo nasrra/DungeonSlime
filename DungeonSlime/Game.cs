@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
 using DungeonSlime.Entities;
 using System.Numerics;
+using HowlEngine.Core.Input;
 
 namespace DungeonSlime;
 
@@ -22,9 +23,8 @@ public class Game : HowlEngine.Core.HowlApp{
     private List<Token> spawnedCircleColliders = new List<Token>();
 
     private List<HowlEngine.Collections.Shapes.Circle> copiedCircles = new List<HowlEngine.Collections.Shapes.Circle>();
-    private List<Vector2[]> copiedBoxes = new List<Vector2[]>();
-
-    public static PhysicsSystem physicsSystem;
+    private List<Vector2[]> copiedBoxesRigids = new List<Vector2[]>();
+    private List<Vector2[]> copiedBoxesKinematics = new List<Vector2[]>();
 
     public Game() : base("Dungeon Slime", 1920, 1080, false, true){}
 
@@ -35,15 +35,13 @@ public class Game : HowlEngine.Core.HowlApp{
         DisableVSync();
         SetFrameRate(1000);
         Random r = new Random();
-        physicsSystem = new PhysicsSystem(200,200);
+        PhysicsSystem = new PhysicsSystem(200,200,200,200, true);
 
         _assetManager = new AssetManager(typeof(Game).Assembly);
 
         AudioManager = new AudioManager(_assetManager);
 
         EntityManager = new EntityManager(2000);
-
-        PhysicsSystem = new AABBPhysicSystem(0, 2000);
 
         CameraManager = new CameraManager(
             new Camera(
@@ -80,10 +78,9 @@ public class Game : HowlEngine.Core.HowlApp{
     protected override void Update(Microsoft.Xna.Framework.GameTime gameTime){
         base.Update(gameTime);
 
-        copiedCircles.Clear();
-
         // Console.WriteLine(collisionChecker.AABB(slimeBox, batBox));
         CameraManager.Update(DeltaTime);
+        SpawnEntityAtMouse();
         if(Input.Keyboard.IsKeyJustPressed(Keys.P)){
             CameraManager.MultiplyZoom(0, 1.25f);
         }
@@ -110,8 +107,9 @@ public class Game : HowlEngine.Core.HowlApp{
         SpriteRenderer.Update(DeltaTime);
         EntityManager.Update(DeltaTime);
     
-        copiedCircles = physicsSystem.CopyCircleRigidBodyColliders();
-        copiedBoxes = physicsSystem.CopyBoxRigidBodyColliders();
+        copiedCircles = PhysicsSystem.CopyCircleRigidBodyColliders();
+        copiedBoxesRigids = PhysicsSystem.CopyPolygonRigidBodyColliders();
+        copiedBoxesKinematics = PhysicsSystem.CopyPolygonKinematicColliders();
     }
 
     protected override void FixedUpdate(Microsoft.Xna.Framework.GameTime gameTime){
@@ -131,8 +129,7 @@ public class Game : HowlEngine.Core.HowlApp{
         if(Input.Keyboard.IsKeyDown(Keys.Down)){
             cameraPositionAdditive.Y += cameraSpeed;
         }
-        PhysicsSystem.FixedUpdate(DeltaTime);
-        physicsSystem.FixedUpdate(DeltaTime);
+        PhysicsSystem.FixedUpdate(DeltaTime, 15);
         EntityManager.FixedUpdate(DeltaTime);
         CameraManager.AddPosition(0, cameraPositionAdditive);
     }
@@ -161,11 +158,21 @@ public class Game : HowlEngine.Core.HowlApp{
             );
         }
 
-        for(int i = 0; i < copiedBoxes.Count; i++){
+        for(int i = 0; i < copiedBoxesRigids.Count; i++){
             SpriteRenderer.DrawPolygon(
                 SpriteBatch,
-                copiedBoxes[i],
+                copiedBoxesRigids[i],
                 System.Drawing.Color.White,
+                1,
+                1
+            );
+        }
+
+        for(int i = 0; i < copiedBoxesKinematics.Count; i++){
+            SpriteRenderer.DrawPolygon(
+                SpriteBatch,
+                copiedBoxesKinematics[i],
+                System.Drawing.Color.Orange,
                 1,
                 1
             );
@@ -211,13 +218,12 @@ public class Game : HowlEngine.Core.HowlApp{
     void SpawnCircleColliders(int amount){
         Random r = new Random();
         for(int i = 0; i < amount; i++){
-            Token token = physicsSystem.AllocateCircleRigidBody(
-                new CircleRigidBody(
+            Token token = PhysicsSystem.AllocateCircleRigidBody(
                     new Vector2(r.Next(0,640), r.Next(0,360)), 
                     r.Next(1,20), 
                     r.Next(1,20), 
-                    r.Next(0,1))
-                );
+                    r.Next(0,1)
+            );
             spawnedCircleColliders.Add(token);
         }
     }
@@ -225,9 +231,26 @@ public class Game : HowlEngine.Core.HowlApp{
     void DeleteCircleColliders(int amount){
         Token[] tokens = spawnedCircleColliders.ToArray();
         for(int i = 0; i < amount; i++){
-            physicsSystem.FreeCircleRigidBody(ref tokens[i]);
+            PhysicsSystem.FreeCircleRigidBody(ref tokens[i]);
             spawnedCircleColliders.Remove(tokens[i]);
         }
     }
 
+    void SpawnEntityAtMouse(){
+        if(Input.Mouse.IsButtonJustPressed(MouseButton.Left)){
+            Console.WriteLine(1);
+            Matrix4x4.Invert(CameraManager.GetMainCamera().ViewMatrix, out Matrix4x4 toWorldPosition);
+            BouncyBall ball = new BouncyBall(
+                Vector2.Transform(new Vector2(Input.Mouse.X, Input.Mouse.Y), toWorldPosition)
+            );
+        }
+
+        if(Input.Mouse.IsButtonJustPressed(MouseButton.Right)){
+            Console.WriteLine(1);
+            Matrix4x4.Invert(CameraManager.GetMainCamera().ViewMatrix, out Matrix4x4 toWorldPosition);
+            SolidSquare square = new SolidSquare(
+                Vector2.Transform(new Vector2(Input.Mouse.X, Input.Mouse.Y), toWorldPosition)
+            );
+        }
+    }
 }
