@@ -14,6 +14,7 @@ using DungeonSlime.Entities;
 using System.Numerics;
 using HowlEngine.Core.Input;
 using FontStashSharp;
+using HowlEngine.Collections.Shapes;
 
 namespace DungeonSlime;
 
@@ -25,8 +26,8 @@ public class Game : HowlEngine.Core.HowlApp{
     private List<Token> spawnedCircleColliders = new List<Token>();
 
     private List<HowlEngine.Collections.Shapes.Circle> copiedCircles = new List<HowlEngine.Collections.Shapes.Circle>();
-    private List<Vector2[]> copiedBoxesRigids = new List<Vector2[]>();
-    private List<Vector2[]> copiedBoxesKinematics = new List<Vector2[]>();
+    private List<Polygon> copiedBoxesRigids = new List<Polygon>();
+    private List<Polygon> copiedBoxesKinematics = new List<Polygon>();
 
     public Game() : base("Dungeon Slime", 1920, 1080, false, true){}
 
@@ -87,7 +88,7 @@ public class Game : HowlEngine.Core.HowlApp{
 
         // Console.WriteLine(collisionChecker.AABB(slimeBox, batBox));
         CameraManager.Update(DeltaTime);
-        SpawnEntityAtMouse();
+        SpawnEntityAtMouse(5);
         if(Input.Keyboard.IsKeyJustPressed(Keys.P)){
             CameraManager.MultiplyZoom(0, 1.25f);
         }
@@ -104,12 +105,6 @@ public class Game : HowlEngine.Core.HowlApp{
         if(Input.Keyboard.IsKeyJustPressed(Keys.K)){
             float vol = AudioManager.GetBusVolume("Master");
             AudioManager.SetBusVolume("Master", vol+=0.1f);
-        }
-        if(Input.Keyboard.IsKeyJustPressed(Keys.N)){
-            SpawnCircleColliders(10);
-        }
-        if(Input.Keyboard.IsKeyJustPressed(Keys.M)){
-            DeleteCircleColliders(10);
         }
         SpriteRenderer.Update(DeltaTime);
         EntityManager.Update(DeltaTime);
@@ -150,67 +145,19 @@ public class Game : HowlEngine.Core.HowlApp{
 
         SpriteRenderer.DrawAll(SpriteBatch);
 
-        // Console.WriteLine(copiedCircles.Count);
+        DebugDrawColliders();
 
-        for(int i = 0; i < copiedCircles.Count; i++){
-            // Console.WriteLine(copiedBoxes[i].X);
-            
-            SpriteRenderer.DrawCircle(
-                SpriteBatch,
-                copiedCircles[i],
-                System.Drawing.Color.LightGreen, 
-                1,
-                1,
-                32
-            );
-        }
-
-        for(int i = 0; i < copiedBoxesRigids.Count; i++){
-            SpriteRenderer.DrawPolygon(
-                SpriteBatch,
-                copiedBoxesRigids[i],
-                System.Drawing.Color.White,
-                1,
-                0.5f
-            );
-        }
-
-        for(int i = 0; i < copiedBoxesKinematics.Count; i++){
-            SpriteRenderer.DrawPolygon(
-                SpriteBatch,
-                copiedBoxesKinematics[i],
-                System.Drawing.Color.Orange,
-                1,
-                1
-            );
-        }
-
-        for(int i = 0; i < PhysicsSystem.ContactPoints.Count; i++){
-            Vector2 point = PhysicsSystem.ContactPoints[i];
-            
-            SpriteRenderer.DrawPolygon(
-                SpriteBatch,
-                new Vector2[]{
-                    new Vector2(-1+point.X, -1+point.Y),
-                    new Vector2(1+point.X, -1+point.Y),
-                    new Vector2(1+point.X, 1+point.Y),
-                    new Vector2(-1+point.X, 1+point.Y),
-                },
-                System.Drawing.Color.Blue,
-                1,
-                1
-            );
-        }
         SpriteBatch.End();
 
         SpriteBatch.Begin();
         SpriteFontBase font = fontSystem.GetFont(24);
         SpriteBatch.DrawString(
-            font, 
-            "[Physics Loop] step time (ms): \n" +
-            "[Physics Loop] total body count: \n"+
-            "[Physics Loop] avg bodies per step: \n", 
-            new Vector2(0, Graphics.PreferredBackBufferHeight - 75), 
+            font,
+            "[Movement] step time (ms): \n" + PhysicsSystem.MovementStepTimer.Elapsed+"\n"+
+            "[Collision] step time (ms): \n" + PhysicsSystem.CollisionTimer.Elapsed+"\n"+
+            "[Response] step time (ms): \n" + PhysicsSystem.ResponseTimer.Elapsed+"\n"+
+            "[Totlal] step time (ms): \n" + PhysicsSystem.StepCallTimer.Elapsed,
+            new Vector2(0, Graphics.PreferredBackBufferHeight - 200), 
             Microsoft.Xna.Framework.Color.White,
             effect: FontSystemEffect.Stroked,
             effectAmount: 2
@@ -254,40 +201,138 @@ public class Game : HowlEngine.Core.HowlApp{
         }
     }
 
-    void SpawnCircleColliders(int amount){
-        Random r = new Random();
-        for(int i = 0; i < amount; i++){
-            Token token = PhysicsSystem.AllocateCircleRigidBody(
-                    new Vector2(r.Next(0,640), r.Next(0,360)), 
-                    r.Next(1,20), 
-                    r.Next(1,20), 
-                    r.Next(0,1)
-            );
-            spawnedCircleColliders.Add(token);
-        }
-    }
-
-    void DeleteCircleColliders(int amount){
-        Token[] tokens = spawnedCircleColliders.ToArray();
-        for(int i = 0; i < amount; i++){
-            PhysicsSystem.FreeCircleRigidBody(ref tokens[i]);
-            spawnedCircleColliders.Remove(tokens[i]);
-        }
-    }
-
-    void SpawnEntityAtMouse(){
+    void SpawnEntityAtMouse(int amount){
         if(Input.Mouse.IsButtonJustPressed(MouseButton.Left)){
             Matrix4x4.Invert(CameraManager.GetMainCamera().ViewMatrix, out Matrix4x4 toWorldPosition);
-            BouncyBall ball = new BouncyBall(
-                Vector2.Transform(new Vector2(Input.Mouse.X, Input.Mouse.Y), toWorldPosition)
-            );
+            for(int i = 0; i < amount; i++){
+                BouncyBall ball = new BouncyBall(
+                    Vector2.Transform(new Vector2(Input.Mouse.X, Input.Mouse.Y), toWorldPosition)
+                );
+            }
         }
 
         if(Input.Mouse.IsButtonJustPressed(MouseButton.Right)){
             Matrix4x4.Invert(CameraManager.GetMainCamera().ViewMatrix, out Matrix4x4 toWorldPosition);
-            SolidSquare square = new SolidSquare(
-                Vector2.Transform(new Vector2(Input.Mouse.X, Input.Mouse.Y), toWorldPosition)
-            );
+            for(int i = 0; i < amount; i++){
+                SolidSquare square = new SolidSquare(
+                    Vector2.Transform(new Vector2(Input.Mouse.X, Input.Mouse.Y), toWorldPosition)
+                );
+            }
         }
     }
+
+    void DebugDrawColliders(){
+        for(int i = 0; i < copiedCircles.Count; i++){            
+            SpriteRenderer.DrawCircle(
+                SpriteBatch,
+                copiedCircles[i],
+                System.Drawing.Color.LightGreen, 
+                1,
+                1,
+                32
+            );
+
+
+            SpriteRenderer.DrawPolygon(
+                SpriteBatch,
+                [
+                    copiedCircles[i].Min,
+                    new Vector2(copiedCircles[i].Max.X, copiedCircles[i].Min.Y),
+                    copiedCircles[i].Max,
+                    new Vector2(copiedCircles[i].Min.X, copiedCircles[i].Max.Y),
+                ],
+                System.Drawing.Color.Blue,
+                1,
+                0.25f                
+            );
+        }
+
+        for(int i = 0; i < copiedBoxesRigids.Count; i++){
+            SpriteRenderer.DrawPolygon(
+                SpriteBatch,
+                copiedBoxesRigids[i].Vertices,
+                System.Drawing.Color.White,
+                1,
+                0.5f
+            );
+
+            SpriteRenderer.DrawPolygon(
+                SpriteBatch,
+                [
+                    copiedBoxesRigids[i].Min,
+                    new Vector2(copiedBoxesRigids[i].Max.X, copiedBoxesRigids[i].Min.Y),
+                    copiedBoxesRigids[i].Max,
+                    new Vector2(copiedBoxesRigids[i].Min.X, copiedBoxesRigids[i].Max.Y),
+                ],
+                System.Drawing.Color.Blue,
+                1,
+                0.25f
+            );
+        }
+
+        for(int i = 0; i < copiedBoxesKinematics.Count; i++){
+            SpriteRenderer.DrawPolygon(
+                SpriteBatch,
+                copiedBoxesKinematics[i].Vertices,
+                System.Drawing.Color.Orange,
+                1,
+                1
+            );
+        }
+
+        for(int i = 0; i < PhysicsSystem.ContactPoints.Count; i++){
+            Vector2 point = PhysicsSystem.ContactPoints[i];
+            
+            SpriteRenderer.DrawPolygon(
+                SpriteBatch,
+                new Vector2[]{
+                    new Vector2(-1+point.X, -1+point.Y),
+                    new Vector2(1+point.X, -1+point.Y),
+                    new Vector2(1+point.X, 1+point.Y),
+                    new Vector2(-1+point.X, 1+point.Y),
+                },
+                System.Drawing.Color.Red,
+                1,
+                1
+            );
+        }
+
+        for(int x = 0; x < PhysicsSystem.SpatialHash.Columns; x++){
+            for(int y = 0; y < PhysicsSystem.SpatialHash.Rows; y++){
+                float sizeX = PhysicsSystem.SpatialHash.CellSize.X;
+                float sizeY = PhysicsSystem.SpatialHash.CellSize.Y;
+                
+                // polygon data layer.
+
+                SpriteRenderer.DrawPolygon(
+                    SpriteBatch,
+                    new Vector2[]{
+                        new Vector2(x*sizeX, y*sizeY),
+                        new Vector2((1+x)*sizeX, y*sizeY),
+                        new Vector2((1+x)*sizeX, (1+y)*sizeY),
+                        new Vector2(x*sizeX, (1+y)*sizeY),
+                    },
+                    System.Drawing.Color.LightPink,
+                    1,
+                    PhysicsSystem.SpatialHash.Cells[y * PhysicsSystem.SpatialHash.Columns + x].Count > 0 ? 0.25f : 0.00f
+                );
+
+                // circle data layer.
+
+                SpriteRenderer.DrawPolygon(
+                    SpriteBatch,
+                    new Vector2[]{
+                        new Vector2(x*sizeX, y*sizeY),
+                        new Vector2((1+x)*sizeX, y*sizeY),
+                        new Vector2((1+x)*sizeX, (1+y)*sizeY),
+                        new Vector2(x*sizeX, (1+y)*sizeY),
+                    },
+                    System.Drawing.Color.LightGreen,
+                    1,
+                    PhysicsSystem.SpatialHash.Cells[y * PhysicsSystem.SpatialHash.Columns + x].Count > 0 ? 0.25f : 0.00f
+                );
+            }
+        }
+    }
+
 }

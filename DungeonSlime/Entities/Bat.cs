@@ -25,7 +25,7 @@ public class Bat : Entity{
         _physicsBody     = Game.PhysicsSystem.AllocateBoxRigidBody(
             position, 
             16, 
-            16,
+            32,
             2,
             1f
         );
@@ -57,7 +57,7 @@ public class Bat : Entity{
         RefView<PolygonPhysicsBody> rv = Game.PhysicsSystem.GetPolygonRigidBody(ref _physicsBody);
         if(rv.IsValid){
             Position = rv.Data.Position;
-            // rv.Data.Rotation += 0.025f;
+            rv.Data.Rotation += 0.005f;
         }
     }
 
