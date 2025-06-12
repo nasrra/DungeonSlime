@@ -15,6 +15,7 @@ using System.Numerics;
 using HowlEngine.Core.Input;
 using FontStashSharp;
 using HowlEngine.Collections.Shapes;
+using System.Diagnostics;
 
 namespace DungeonSlime;
 
@@ -25,9 +26,8 @@ public class Game : HowlEngine.Core.HowlApp{
     private List<Token> spawnedBats = new List<Token>();
     private List<Token> spawnedCircleColliders = new List<Token>();
 
-    private List<HowlEngine.Collections.Shapes.Circle> copiedCircles = new List<HowlEngine.Collections.Shapes.Circle>();
-    private List<Polygon> copiedBoxesRigids = new List<Polygon>();
-    private List<Polygon> copiedBoxesKinematics = new List<Polygon>();
+    private bool _drawPhysics = false;
+    private bool _drawSprites = true;
 
     public Game() : base("Dungeon Slime", 1920, 1080, false, true){}
 
@@ -43,13 +43,13 @@ public class Game : HowlEngine.Core.HowlApp{
         fontSystem.AddFont(System.IO.File.ReadAllBytes(@"Assets/Fonts/DroidSans.ttf"));
         fontSystem.AddFont(System.IO.File.ReadAllBytes(@"Assets/Fonts/DroidSansJapanese.ttf"));
 
-        PhysicsSystem = new PhysicsSystem(200,200,200,200, true);
+        PhysicsSystem = new PhysicsSystem(10000,10000,10000,10000, true);
 
         _assetManager = new AssetManager(typeof(Game).Assembly);
 
         AudioManager = new AudioManager(_assetManager);
 
-        EntityManager = new EntityManager(2000);
+        EntityManager = new EntityManager(10000);
 
         CameraManager = new CameraManager(
             new Camera(
@@ -66,8 +66,8 @@ public class Game : HowlEngine.Core.HowlApp{
             GraphicsDevice,
             new List<string>(){
             },
-            2000,
-            2000
+            10000,
+            10000
         );
 
         SceneManager = new SceneManager(
@@ -76,7 +76,7 @@ public class Game : HowlEngine.Core.HowlApp{
             SpriteRenderer
         );
 
-        SceneManager.LoadScene("Level1.json");
+        SceneManager.LoadScene("Level2.json");
 
         AudioManager.LoadBank("Bank A");
 
@@ -88,7 +88,7 @@ public class Game : HowlEngine.Core.HowlApp{
 
         // Console.WriteLine(collisionChecker.AABB(slimeBox, batBox));
         CameraManager.Update(DeltaTime);
-        SpawnEntityAtMouse(5);
+        SpawnEntityAtMouse(100);
         if(Input.Keyboard.IsKeyJustPressed(Keys.P)){
             CameraManager.MultiplyZoom(0, 1.25f);
         }
@@ -96,7 +96,12 @@ public class Game : HowlEngine.Core.HowlApp{
             CameraManager.MultiplyZoom(0, 0.85f);
         }
         if(Input.Keyboard.IsKeyJustPressed(Keys.Tab)){
-            AudioManager.PlayOneShot("Test");
+            // AudioManager.PlayOneShot("Test");
+            _drawPhysics = !_drawPhysics;
+        }
+        if(Input.Keyboard.IsKeyJustPressed(Keys.LeftControl)){
+            // AudioManager.PlayOneShot("Test");
+            _drawSprites = !_drawSprites;
         }
         if(Input.Keyboard.IsKeyJustPressed(Keys.L)){
             float vol = AudioManager.GetBusVolume("Master");
@@ -108,10 +113,6 @@ public class Game : HowlEngine.Core.HowlApp{
         }
         SpriteRenderer.Update(DeltaTime);
         EntityManager.Update(DeltaTime);
-    
-        copiedCircles = PhysicsSystem.CopyCircleRigidBodyColliders();
-        copiedBoxesRigids = PhysicsSystem.CopyPolygonRigidBodyColliders();
-        copiedBoxesKinematics = PhysicsSystem.CopyPolygonKinematicColliders();
     }
 
     protected override void FixedUpdate(Microsoft.Xna.Framework.GameTime gameTime){
@@ -142,22 +143,29 @@ public class Game : HowlEngine.Core.HowlApp{
 
         // Begin the sprite batch to preapre for rendering.
         SpriteBatch.Begin(SpriteSortMode.FrontToBack, null, SamplerState.PointClamp, null, null, null, CameraManager.GetMainCamera().ViewMatrix);
-
-        SpriteRenderer.DrawAll(SpriteBatch);
+        if(_drawSprites== true){
+            SpriteRenderer.DrawAll(SpriteBatch);
+        }
 
         DebugDrawColliders();
 
         SpriteBatch.End();
 
         SpriteBatch.Begin();
-        SpriteFontBase font = fontSystem.GetFont(24);
+        SpriteFontBase font = fontSystem.GetFont(16);
         SpriteBatch.DrawString(
             font,
-            "[Movement] step time (ms): \n" + PhysicsSystem.MovementStepTimer.Elapsed+"\n"+
-            "[Collision] step time (ms): \n" + PhysicsSystem.CollisionTimer.Elapsed+"\n"+
-            "[Response] step time (ms): \n" + PhysicsSystem.ResponseTimer.Elapsed+"\n"+
-            "[Totlal] step time (ms): \n" + PhysicsSystem.StepCallTimer.Elapsed,
-            new Vector2(0, Graphics.PreferredBackBufferHeight - 200), 
+            "[Sprite]: \n" + SpriteRenderer.DrawTimer.Elapsed+"\n"+
+            GraphicsDevice.Metrics.DrawCount+"\n"+
+            "[Entity]: \n" + EntityManager.LoopTimer.Elapsed+"\n"+
+            "[Movement]: \n" + PhysicsSystem.MovementStepTimer.Elapsed+"\n"+
+            "[Neighbour]: \n" + PhysicsSystem.FindNeighboursTimer.Elapsed+"\n"+
+            "[Broad]: \n" + PhysicsSystem.BroadTimer.Elapsed+"\n"+
+            "[Narrow]: \n" + PhysicsSystem.NarrowTimer.Elapsed+"\n"+
+            "[Response]: \n" + PhysicsSystem.ResponseTimer.Elapsed+"\n"+
+            "[Spatial]: \n" + PhysicsSystem.SpatialUpdateTimer.Elapsed+"\n"+
+            "[Total Physics]: \n" + PhysicsSystem.StepCallTimer.Elapsed,
+            new Vector2(0, Graphics.PreferredBackBufferHeight - 500), 
             Microsoft.Xna.Framework.Color.White,
             effect: FontSystemEffect.Stroked,
             effectAmount: 2
@@ -222,10 +230,16 @@ public class Game : HowlEngine.Core.HowlApp{
     }
 
     void DebugDrawColliders(){
-        for(int i = 0; i < copiedCircles.Count; i++){            
+        if(_drawPhysics == false){
+            return;
+        }
+
+        for(int i = 0; i < PhysicsSystem.circleRigidBodies.ActiveSlots.Count; i++){            
+            ref Circle circle = ref PhysicsSystem.circleRigidBodies.GetData(PhysicsSystem.circleRigidBodies.ActiveSlots[i]).Shape;
+
             SpriteRenderer.DrawCircle(
                 SpriteBatch,
-                copiedCircles[i],
+                circle,
                 System.Drawing.Color.LightGreen, 
                 1,
                 1,
@@ -236,10 +250,10 @@ public class Game : HowlEngine.Core.HowlApp{
             SpriteRenderer.DrawPolygon(
                 SpriteBatch,
                 [
-                    copiedCircles[i].Min,
-                    new Vector2(copiedCircles[i].Max.X, copiedCircles[i].Min.Y),
-                    copiedCircles[i].Max,
-                    new Vector2(copiedCircles[i].Min.X, copiedCircles[i].Max.Y),
+                    circle.Min,
+                    new Vector2(circle.Max.X, circle.Min.Y),
+                    circle.Max,
+                    new Vector2(circle.Min.X, circle.Max.Y),
                 ],
                 System.Drawing.Color.Blue,
                 1,
@@ -247,10 +261,12 @@ public class Game : HowlEngine.Core.HowlApp{
             );
         }
 
-        for(int i = 0; i < copiedBoxesRigids.Count; i++){
+        for(int i = 0; i < PhysicsSystem.polygonRigidBodies.ActiveSlots.Count; i++){
+            ref Polygon polygon = ref PhysicsSystem.polygonRigidBodies.GetData(PhysicsSystem.polygonRigidBodies.ActiveSlots[i]).Shape;
+
             SpriteRenderer.DrawPolygon(
                 SpriteBatch,
-                copiedBoxesRigids[i].Vertices,
+                polygon.Vertices,
                 System.Drawing.Color.White,
                 1,
                 0.5f
@@ -259,10 +275,10 @@ public class Game : HowlEngine.Core.HowlApp{
             SpriteRenderer.DrawPolygon(
                 SpriteBatch,
                 [
-                    copiedBoxesRigids[i].Min,
-                    new Vector2(copiedBoxesRigids[i].Max.X, copiedBoxesRigids[i].Min.Y),
-                    copiedBoxesRigids[i].Max,
-                    new Vector2(copiedBoxesRigids[i].Min.X, copiedBoxesRigids[i].Max.Y),
+                    polygon.Min,
+                    new Vector2(polygon.Max.X, polygon.Min.Y),
+                    polygon.Max,
+                    new Vector2(polygon.Min.X, polygon.Max.Y),
                 ],
                 System.Drawing.Color.Blue,
                 1,
@@ -270,13 +286,28 @@ public class Game : HowlEngine.Core.HowlApp{
             );
         }
 
-        for(int i = 0; i < copiedBoxesKinematics.Count; i++){
+        for(int i = 0; i < PhysicsSystem.polygonKinematicBodies.ActiveSlots.Count; i++){
+            ref Polygon polygon = ref PhysicsSystem.polygonKinematicBodies.GetData(PhysicsSystem.polygonKinematicBodies.ActiveSlots[i]).Shape;
+
             SpriteRenderer.DrawPolygon(
                 SpriteBatch,
-                copiedBoxesKinematics[i].Vertices,
+                polygon.Vertices,
                 System.Drawing.Color.Orange,
                 1,
-                1
+                0.5f
+            );
+
+            SpriteRenderer.DrawPolygon(
+                SpriteBatch,
+                [
+                    polygon.Min,
+                    new Vector2(polygon.Max.X, polygon.Min.Y),
+                    polygon.Max,
+                    new Vector2(polygon.Min.X, polygon.Max.Y),
+                ],
+                System.Drawing.Color.Blue,
+                1,
+                0.25f
             );
         }
 

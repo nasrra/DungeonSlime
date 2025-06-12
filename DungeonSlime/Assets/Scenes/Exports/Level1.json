@@ -101,6 +101,66 @@
                          "template":"..\/..\/Templates\/Exports\/Entities\/Slime.json",
                          "x":400,
                          "y":224
+                        }, 
+                        {
+                         "id":106,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":207.5,
+                         "y":251.5
+                        }, 
+                        {
+                         "id":112,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":159.5,
+                         "y":251.5
+                        }, 
+                        {
+                         "id":113,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":305.5,
+                         "y":134.5
+                        }, 
+                        {
+                         "id":114,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":257.5,
+                         "y":134.5
+                        }, 
+                        {
+                         "id":115,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":492.5,
+                         "y":260
+                        }, 
+                        {
+                         "id":116,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":444.5,
+                         "y":260
+                        }, 
+                        {
+                         "id":117,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":516.5,
+                         "y":112
+                        }, 
+                        {
+                         "id":118,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":468.5,
+                         "y":112
+                        }, 
+                        {
+                         "id":119,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":168.5,
+                         "y":113
+                        }, 
+                        {
+                         "id":120,
+                         "template":"..\/..\/Templates\/Exports\/Entities\/Bat.json",
+                         "x":120.5,
+                         "y":113
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -111,6 +171,7 @@
                 {
                  "draworder":"topdown",
                  "id":5,
+                 "locked":true,
                  "name":"Collisions",
                  "objects":[
                         {
@@ -193,7 +254,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":96,
+ "nextobjectid":121,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.2",

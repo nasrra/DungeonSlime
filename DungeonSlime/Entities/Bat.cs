@@ -57,7 +57,7 @@ public class Bat : Entity{
         RefView<PolygonPhysicsBody> rv = Game.PhysicsSystem.GetPolygonRigidBody(ref _physicsBody);
         if(rv.IsValid){
             Position = rv.Data.Position;
-            rv.Data.Rotation += 0.005f;
+            rv.Data.Rotation += 0.015f;
         }
     }
 

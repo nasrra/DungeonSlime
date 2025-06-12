@@ -70,3 +70,4 @@ C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\StbTrueTypeSharp.
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\FontStashSharp.MonoGame.pdb
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Fonts\DroidSans.ttf
 C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Fonts\DroidSansJapanese.ttf
+C:\MonogameProjects\DungeonSlime\DungeonSlime\bin\Debug\net8.0\Assets\Scenes\Exports\Level2.json

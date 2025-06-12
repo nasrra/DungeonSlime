@@ -3,19 +3,17 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Scenes/Exports/Level1.json",
+    "activeFile": "Scenes/Exports/Level2.json",
     "expandedProjectPaths": [
-        "Images/Exports/Tilesets",
-        "Images/Exports",
-        "Scenes/Exports",
-        "Images",
-        "Templates/Exports",
         "Images/Exports/Entities",
         "Templates/Entities",
         "Templates",
-        "Scenes",
+        "Scenes/Exports",
+        "Images/Exports",
         ".",
-        "Templates/Exports/Entities"
+        "Images/Exports/Tilesets",
+        "Scenes",
+        "Images"
     ],
     "fileStates": {
         "Images/Exports/Entities/Debug.json": {
@@ -44,33 +42,45 @@
         },
         "Scenes/Exports/Level1.json": {
             "expandedGroupLayers": [
-                4,
-                3
+                3,
+                4
             ],
-            "scale": 2,
+            "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 379.5,
-                "y": 201
+                "x": 397,
+                "y": 247
+            }
+        },
+        "Scenes/Exports/Level2.json": {
+            "expandedGroupLayers": [
+                4
+            ],
+            "scale": 0.5,
+            "selectedLayer": 3,
+            "viewCenter": {
+                "x": 898,
+                "y": 534
             }
         }
     },
     "last.exportedFilePath": "C:/MonogameProjects/DungeonSlime/DungeonSlime/Assets/Scenes/Exports",
     "last.imagePath": "C:/MonogameProjects/DungeonSlime/DungeonSlime/Assets/Images/Exports/Entities",
     "last.objectTemplatePath": "C:/MonogameProjects/DungeonSlime/DungeonSlime/Assets/Templates/Exports/Entities",
-    "map.height": 22,
+    "map.height": 68,
     "map.lastUsedExportFilter": "All Files (*)",
     "map.lastUsedFormat": "json",
     "map.tileHeight": 16,
     "map.tileWidth": 16,
-    "map.width": 40,
+    "map.width": 120,
     "openFiles": [
-        "Scenes/Exports/Level1.json"
+        "Scenes/Exports/Level2.json"
     ],
     "project": "DungeonSlime.tiled-project",
     "recentFiles": [
-        "Scenes/Exports/Level1.json",
+        "Scenes/Exports/Level2.json",
         "Images/Exports/Entities/Debug.json",
+        "Scenes/Exports/Level1.json",
         "Images/Exports/Entities/TestPhysicsBodies.json",
         "Images/Exports/Entities/Entities.json",
         "Images/Exports/Tilesets/Collisions.json",
